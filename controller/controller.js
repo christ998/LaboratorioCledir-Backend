@@ -6,7 +6,7 @@ const controllers = {
     },
     excelAJson(req, res) {
         const excel = XLSX.readFile(
-            "C:\\Users\\Christian\\WebstormProjects\\laboratorio-cledir-backend\\Registro de Cepas.xlsx"
+            "C:\\Users\\Christian\\WebstormProjects\\LaboratorioCledir-Backend\\Muestra prototipo BD.xlsx"
         );
         var nombreHoja = excel.SheetNames;
         let datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]])
@@ -17,6 +17,18 @@ const controllers = {
                 console.log(doc)
             })
         })
+    },
+    async getAllMicroorganismForAdmin(req, res){
+        const todosLosMicroorganismos = await bacteriaModel.find({})
+        res.send(todosLosMicroorganismos)
+    },
+
+    async getParticularMicroorganism(req, res) {
+        const microorganism = await bacteriaModel.find({
+            "Strain code": req.query["Strain code"]
+        }).exec()
+        console.log(req.query)
+        res.send(microorganism)
     }
 
 }
