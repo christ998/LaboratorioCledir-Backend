@@ -10,7 +10,7 @@ const controllers = {
         );
         var nombreHoja = excel.SheetNames;
         let datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]])
-        datos.forEach((item, index)=>{
+        datos.forEach((item, index) => {
             const nuevaBacteria = new bacteriaModel(item)
             nuevaBacteria.save((err, doc) => {
                 if (err) console.log(err)
@@ -18,17 +18,53 @@ const controllers = {
             })
         })
     },
-    async getAllMicroorganismForAdmin(req, res){
+    async getAllMicroorganismForAdmin(req, res) {
         const todosLosMicroorganismos = await bacteriaModel.find({})
         res.send(todosLosMicroorganismos)
     },
 
-    async getParticularMicroorganism(req, res) {
-        const microorganism = await bacteriaModel.find({
-            "Strain code": req.query["Strain code"]
-        }).exec()
-        console.log(req.query)
-        res.send(microorganism)
+    async getMicroorganism(req, res) {
+        try {
+            const microorganism = await bacteriaModel.find({
+                "Strain code": new RegExp(req.query["Strain code"])
+            }).exec()
+            console.log(req.query)
+            res.send(microorganism)
+        } catch (e) {
+            res.send(e)
+        }
+
+    },
+
+    // createMicroorganism(req, res) {
+    //     const request = req.body
+    //     const newMicroorganism = new bacteriaModel(request)
+    //     newMicroorganism.save((err, doc) => {
+    //         if (err) console.log(err)
+    //         console.log(doc)
+    //         res.json(newMicroorganism)
+    //     })
+    // },
+
+    createMicroorganismByFile(req, res) {
+        let file = req.files.file
+        var nombreHoja = file.SheetNames;
+        let datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]])
+        datos.forEach((item, index) => {
+            const nuevaBacteria = new bacteriaModel(item)
+            nuevaBacteria.save((err, doc) => {
+                if (err) console.log(err)
+                console.log(doc)
+            })
+        })
+
+    },
+
+    async createOrUpdateMicroorganism(req, res) {
+        const request = req.body
+        console.log(req.body)
+        let doc = await bacteriaModel.findOneAndUpdate({'_id': request['_id']}, req.body, {new: true, upsert: true})
+        res.send(doc)
     }
 
 }
