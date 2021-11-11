@@ -7,6 +7,7 @@ router.get("/excel", ctr.excelAJson)
 router.get("/all", ctr.getAllMicroorganismForAdmin)
 router.get("/micparticular", ctr.getMicroorganism)
 router.post("/add", ctr.createOrUpdateMicroorganism)
+router.post("/file", ctr.createMicroorganismByFile)
 
 
 module.exports = router

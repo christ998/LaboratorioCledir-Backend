@@ -46,17 +46,19 @@ const controllers = {
     //     })
     // },
 
-    createMicroorganismByFile(req, res) {
+    async createMicroorganismByFile(req, res) {
         let file = req.files.file
-        var nombreHoja = file.SheetNames;
-        let datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]])
-        datos.forEach((item, index) => {
-            const nuevaBacteria = new bacteriaModel(item)
-            nuevaBacteria.save((err, doc) => {
-                if (err) console.log(err)
-                console.log(doc)
-            })
+        await file.mv("./excel/"+file.name, (err) =>{
+            if (err) return res.status(500).send(err);
         })
+        const excel = XLSX.readFile("./excel/"+file.name)
+        var nombreHoja = excel.SheetNames;
+        console.log(nombreHoja)
+        let datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]])
+        for (const item of datos) {
+            await bacteriaModel.findOneAndUpdate({'Strain code': item['Strain code']}, item, {new: true, upsert: true})
+        }
+        res.status(200).send("File loaded")
 
     },
 

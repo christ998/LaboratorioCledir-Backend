@@ -3,13 +3,18 @@ const {conectar, mongoose} = require("./config/mongo")
 const router = require("./routes/");
 const bodyParser = require("body-parser");
 const fileUpload = require('express-fileupload')
+const transporter = require('./services/nodemailer')
 
 const PORT = 3000
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
-app.use(fileUpload())
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+    preserveExtension: true,
+}))
 
 app.use(router)
 
