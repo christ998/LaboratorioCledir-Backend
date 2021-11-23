@@ -1,93 +1,97 @@
-const { Schema } = require('mongoose')
+const {Schema} = require('mongoose')
 const {mongoose} = require("../config/mongo");
 
 const bacteriaModel = new Schema(
     {
         "Microorganism Type": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Strain code": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Species": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "History of Deposit": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Depositor name": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Date of Isolation": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Source of isolation": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Geographic origin": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Preservation method": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Incubation time (h)": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Growth culture medium": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Optimum growth temperature": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Respiration": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Identification Method": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Primers": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "GenBank accession code": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Sequence": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Macromorpholy": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Micromorpholy": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Biochemistry": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
         },
         "Related literature": {
-                type:String,
-                default:''
+            type: String,
+            default: ''
+        },
+        "Samples stock": {
+            type: Number,
+
         }
 
-    },{collection: 'laboratorio'}
+    }, {collection: 'laboratorio'}
 )
 module.exports = mongoose.model('Microorganismo', bacteriaModel)

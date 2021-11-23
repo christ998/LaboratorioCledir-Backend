@@ -24,11 +24,15 @@ const controllers = {
     },
 
     async getMicroorganism(req, res) {
+        const parameters = {}
+        const keys = Object.keys(req.query) // Devuelve un arreglo con las keys de la query como strain code, species, etc
+        const values = Object.values(req.query) //Lo mismo pero con los valores
+
+        for (let i = 0; i < keys.length; i++) {
+            parameters[keys[i]] = new RegExp(values[i])
+        }
         try {
-            const microorganism = await bacteriaModel.find({
-                "Strain code": new RegExp(req.query["Strain code"])
-            }).exec()
-            console.log(req.query)
+            const microorganism = await bacteriaModel.find(parameters).exec()
             res.send(microorganism)
         } catch (e) {
             res.send(e)
@@ -53,9 +57,10 @@ const controllers = {
         })
         const excel = XLSX.readFile("./excel/"+file.name)
         var nombreHoja = excel.SheetNames;
-        console.log(nombreHoja)
+
         let datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]])
         for (const item of datos) {
+            console.log(item)
             await bacteriaModel.findOneAndUpdate({'Strain code': item['Strain code']}, item, {new: true, upsert: true})
         }
         res.status(200).send("File loaded")
