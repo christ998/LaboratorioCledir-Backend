@@ -89,7 +89,10 @@ const bacteriaModel = new Schema(
         },
         "Samples stock": {
             type: Number,
-
+        },
+        "Link": {
+            type: String,
+            default:''
         }
 
     }, {collection: 'laboratorio'}

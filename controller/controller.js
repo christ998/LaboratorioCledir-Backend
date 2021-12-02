@@ -29,7 +29,7 @@ const controllers = {
         const values = Object.values(req.query) //Lo mismo pero con los valores
 
         for (let i = 0; i < keys.length; i++) {
-            parameters[keys[i]] = new RegExp(values[i])
+            parameters[keys[i]] = values[i]
         }
         try {
             const microorganism = await bacteriaModel.find(parameters).exec()
@@ -40,22 +40,12 @@ const controllers = {
 
     },
 
-    // createMicroorganism(req, res) {
-    //     const request = req.body
-    //     const newMicroorganism = new bacteriaModel(request)
-    //     newMicroorganism.save((err, doc) => {
-    //         if (err) console.log(err)
-    //         console.log(doc)
-    //         res.json(newMicroorganism)
-    //     })
-    // },
-
     async createMicroorganismByFile(req, res) {
         let file = req.files.file
-        await file.mv("./excel/"+file.name, (err) =>{
+        await file.mv("./excel/" + file.name, (err) => {
             if (err) return res.status(500).send(err);
         })
-        const excel = XLSX.readFile("./excel/"+file.name)
+        const excel = XLSX.readFile("./excel/" + file.name)
         var nombreHoja = excel.SheetNames;
 
         let datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]])
@@ -67,12 +57,16 @@ const controllers = {
 
     },
 
-    async createOrUpdateMicroorganism(req, res) {
+    createOrUpdateMicroorganism(req, res) {
         const request = req.body
-        console.log(req.body)
-        let doc = await bacteriaModel.findOneAndUpdate({'_id': request['_id']}, req.body, {new: true, upsert: true})
-        res.send(doc)
-    }
+        let doc = bacteriaModel.findOneAndUpdate(
+            {'_id': request['_id']}, req.body, {new: true, upsert: true}
+        ).then(res => {
+            res.send(doc)
+        }).catch(error => {
+            res.send(error)
+        })
+    },
 
 }
 
