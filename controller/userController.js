@@ -35,7 +35,6 @@ const authenticate = (req, res) => {
                     "mensaje": 'Usuario no existe',
                 })
             } else {
-                console.log(doc)
                 const result = await bcrypt.compare(req.body.password, doc[0].password)
                 result ? res.status(200).json({'mensaje': 'Logueado exitosamente'}) : res.status(401).json({'mensaje': 'Contraseña incorrecta'})
             }

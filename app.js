@@ -8,6 +8,8 @@ var cors = require('cors')
 const PORT = 4000
 const app = express()
 require('dotenv').config()
+
+
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
@@ -20,11 +22,6 @@ app.use(fileUpload({
 app.use(router)
 
 app.listen(PORT, ()=>console.log("Escuchando en el puerto", PORT))
-
-
-// (async () =>{
-//     console.log("ejemplo")
-// })()
 
 const conexion = async function () {
 
