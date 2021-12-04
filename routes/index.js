@@ -3,7 +3,7 @@ const userRouter = require('express').Router()
 const microRouter = require('express').Router()
 const ctr = require("../controller/controller")
 const {createUser, authenticate} = require('../controller/userController')
-const {generateTokenFake, checktoken} = require('../services/jwt')
+const {generateTokenFake, checktoken, tokenIsValid} = require('../services/jwt')
 
 
 microRouter.post("/add", ctr.createOrUpdateMicroorganism)
@@ -19,6 +19,6 @@ router.use('/user', checktoken, userRouter)
 router.post('/auth', authenticate)
 
 router.post('/jwtfake', generateTokenFake)
-
+router.post('/checkjwt', tokenIsValid)
 
 module.exports = router
