@@ -7,7 +7,7 @@ const transporter = require('./services/nodemailer')
 var cors = require('cors')
 const PORT = 4000
 const app = express()
-
+require('dotenv').config()
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
