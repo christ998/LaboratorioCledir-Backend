@@ -4,6 +4,7 @@ const user = new userModel()
 const {generateToken} = require('../services/jwt')
 
 const createUser = async (req, res) => {
+
     const passwordEncrypted = await user.encryptPassword(req.body.password)
     await userModel.create({
         email: req.body.email,

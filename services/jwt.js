@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken')
 
-const generateTokenFake = (req, res) => {
-    const token = jwt.sign({
-        name: 'fake',
-        id: 'fake'
-    }, process.env.TOKEN_SECRET, {expiresIn: 240})
-    res.json({token: token})
-}
+// const generateTokenFake = (req, res) => {
+//     const token = jwt.sign({
+//         name: 'fake',
+//         id: 'fake'
+//     }, process.env.TOKEN_SECRET, {expiresIn: 240})
+//     res.json({token: token})
+// }
 
 const generateToken = (email, password) => {
     const token = jwt.sign({
