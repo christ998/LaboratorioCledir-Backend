@@ -55,6 +55,10 @@ const bacteriaModel = new Schema(
             type: String,
             default: ''
         },
+        "Oxygen tolerance": {
+            type: String,
+            default: ''
+        },
         "Identification Method": {
             type: String,
             default: ''
@@ -93,6 +97,10 @@ const bacteriaModel = new Schema(
         "Link": {
             type: String,
             default:''
+        },
+        "IsPrivate": {
+            type: Boolean,
+            default: false,
         }
 
     }, {collection: 'laboratorio'}

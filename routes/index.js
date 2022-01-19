@@ -16,7 +16,7 @@ router.use('/user', checktoken, userRouter)
 userRouter.post("/adduser", createUser)
 
 router.post('/auth', authenticate)
-// router.post('/jwtfake', generateTokenFake)
+router.post('/jwtfake', generateTokenFake)
 router.post('/checkjwt', tokenIsValid)
 
 module.exports = router

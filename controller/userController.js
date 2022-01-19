@@ -37,8 +37,9 @@ const authenticate = (req, res) => {
                 })
             } else {
                 const result = await bcrypt.compare(req.body.password, doc[0].password)
-                if (result) {
-                    const token = generateToken(req.body.email, req.body.password)
+                console.log(doc)
+                if (doc) {
+                    const token = generateToken(req.body.email, doc[0].isAdmin)
                     res.status(200).json({'mensaje': 'Logueado exitosamente', 'token': token})
                 } else {
                     res.status(401).json({'mensaje': 'Contraseña incorrecta'})

@@ -1,5 +1,6 @@
 var XLSX = require("xlsx")
 const bacteriaModel = require('../models/Bacteria')
+const {getRole} = require('../services/verifications')
 const controllers = {
 
     async getAllMicroorganismForAdmin(req, res) {
@@ -8,6 +9,7 @@ const controllers = {
     },
 
     async getMicroorganism(req, res) {
+        const isAdmin = getRole(req.headers.authorization)
         const parameters = {}
         const keys = Object.keys(req.query) // Devuelve un arreglo con las keys de la query como strain code, species, etc
         const values = Object.values(req.query) //Lo mismo pero con los valores
@@ -16,7 +18,13 @@ const controllers = {
             parameters[keys[i]] = values[i]
         }
         try {
-            const microorganism = await bacteriaModel.find(parameters).exec()
+            let microorganism = {}
+            if (isAdmin){
+                microorganism = await bacteriaModel.find(parameters).exec()
+            } else {
+                parameters['IsPrivate'] = false
+                microorganism = await bacteriaModel.find(parameters).exec()
+            }
             res.send(microorganism)
         } catch (e) {
             res.send(e)

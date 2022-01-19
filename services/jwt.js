@@ -1,17 +1,17 @@
 const jwt = require('jsonwebtoken')
 
-// const generateTokenFake = (req, res) => {
-//     const token = jwt.sign({
-//         name: 'fake',
-//         id: 'fake'
-//     }, process.env.TOKEN_SECRET, {expiresIn: 240})
-//     res.json({token: token})
-// }
+const generateTokenFake = (req, res) => {
+    const token = jwt.sign({
+        name: 'fake',
+        id: 'fake'
+    }, process.env.TOKEN_SECRET, {expiresIn: 240})
+    res.json({token: token})
+}
 
-const generateToken = (email, password) => {
+const generateToken = (email, isAdmin) => {
     const token = jwt.sign({
         email,
-        password
+        isAdmin
     }, process.env.TOKEN_SECRET)
 
     return token
@@ -37,4 +37,4 @@ const tokenIsValid = (req, res) => {
     })
 }
 
-module.exports = {generateTokenFake, checktoken, generateToken, tokenIsValid}
+module.exports = {checktoken, generateToken, tokenIsValid, generateTokenFake}
