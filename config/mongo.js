@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const db_path = 'mongodb://csantos:csantos@localhost:27017/laboratorio?authSource=admin'
+const db_path = 'mongodb://root:root@localhost:27017/laboratorio?authSource=admin'
 const db_name = 'laboratorio'
 const config = {
     useNewUrlParser: true,

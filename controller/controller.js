@@ -9,21 +9,21 @@ const controllers = {
     },
 
     async getMicroorganism(req, res) {
+
         const isAdmin = getRole(req.headers.authorization)
         const parameters = {}
-        const keys = Object.keys(req.query) // Devuelve un arreglo con las keys de la query como strain code, species, etc
+        const keys = Object.keys(req.query) // Devuelve un arreglo con la key de la query como strain code, species, u otro
         const values = Object.values(req.query) //Lo mismo pero con los valores
-
         for (let i = 0; i < keys.length; i++) {
             parameters[keys[i]] = values[i]
         }
         try {
             let microorganism = {}
             if (isAdmin){
-                microorganism = await bacteriaModel.find(parameters).exec()
+                microorganism = await bacteriaModel.find({[keys]:values})
             } else {
                 parameters['IsPrivate'] = false
-                microorganism = await bacteriaModel.find(parameters).exec()
+                microorganism = await bacteriaModel.find({[keys]:values, 'IsPrivate': false})
             }
             res.send(microorganism)
         } catch (e) {
@@ -33,6 +33,7 @@ const controllers = {
     },
 
     async createMicroorganismByFile(req, res) {
+        console.log(req.files)
         let file = req.files.file
         await file.mv("./excel/" + file.name, (err) => {
             if (err) return res.status(500).send(err);
